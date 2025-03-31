@@ -85,6 +85,12 @@ const Dashboard = () => {
           </tbody>
         </table>
       </div>
+      <div className="mt-6 p-4 bg-gray-100 rounded-md">
+        <p className="text-sm text-gray-700">
+          <strong>Note:</strong> Due to the project utilizing a free-tier MongoDB Atlas instance and a free deployment on render.com, data retrieval may exhibit slower performance. 
+          Expect potential delays when loading data-intensive sections of the application. Upgrading to paid services would significantly improve response times.
+        </p>
+      </div>
     </div>
   );
 };
