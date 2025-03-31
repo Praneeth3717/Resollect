@@ -1,9 +1,9 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter,faSort } from '@fortawesome/free-solid-svg-icons';
+import { faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
 import Filter from './Filter';
-import { useQuery } from "@tanstack/react-query";
-import { GetLoans,GetLoan,GetLoansByType,GetLoansByRegion,GetSortedLoans,GetPreSarfaesiLoans,GetNpaLoans } from '../api/loanApi';
+import { useQuery } from '@tanstack/react-query';
+import {GetLoans,GetPreSarfaesiLoans,GetNpaLoans,GetSortedLoans} from '../api/loanApi';
 
 const Portfolio = () => {
   const [selectedLoans, setSelectedLoans] = useState([]);
@@ -30,15 +30,18 @@ const Portfolio = () => {
     queryKey: ['loans', filterType],
     queryFn: async () => {
       switch (filterType) {
-        case 'pre-sarfaesi': return await GetPreSarfaesiLoans();
-        case 'npa': return await GetNpaLoans();
-        case 'sorted': return await GetSortedLoans();
-        default: return await GetLoans();
+        case 'pre-sarfaesi':
+          return await GetPreSarfaesiLoans();
+        case 'npa':
+          return await GetNpaLoans();
+        case 'sorted':
+          return await GetSortedLoans();
+        default:
+          return await GetLoans();
       }
-    }
+    },
   });
 
-  
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error fetching loans!</p>;
 
@@ -46,32 +49,27 @@ const Portfolio = () => {
     <div className="container mx-auto p-2 text-xs relative">
       <div className="flex flex-col mb-2 space-y-2">
         <h1 className="text-2xl">Portfolio</h1>
-        <div className="flex space-x-2">
-          <button onClick={() => setFilterType('all')} className="border-gray-300 border text-gray-700 px-8 py-2 rounded-md">All</button>
-          <button onClick={() => setFilterType('pre-sarfaesi')} className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md">Pre Sarfaesi</button>
-          <button onClick={() => setFilterType('npa')} className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md">NPA</button>
-          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md">13(3) Responses</button>
-          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md">Symbolic Possession</button>
-          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md">DM Order</button>
-          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md">Physical Possessions</button>
-          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md">Auctions</button>
+        <div className="flex flex-wrap space-x-2">
+          <button onClick={() => setFilterType('all')} className="border-gray-300 border text-gray-700 px-4 py-1 rounded-md mb-2">
+            All
+          </button>
+          <button onClick={() => setFilterType('pre-sarfaesi')} className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md mb-2">
+            Pre Sarfaesi
+          </button>
+          <button onClick={() => setFilterType('npa')} className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md mb-2">
+            NPA
+          </button>
+          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md mb-2">13(3) Responses</button>
+          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md mb-2">Symbolic Possession</button>
+          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md mb-2">DM Order</button>
+          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md mb-2">Physical Possessions</button>
+          <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md mb-2">Auctions</button>
         </div>
-        <div className="flex justify-between">
-          <input
-            type="text"
-            placeholder="Search Loan Number"
-            className="border border-gray-300 rounded-md px-15 py-2"
-          />
-          <div className="flex space-x-2">
-          <input
-            type="text"
-            placeholder="Search Loan Type / Region"
-            className="border border-gray-300 rounded-md px-15 py-2"
-          />
-            <button
-              className="text-black px-10 py-2 rounded-md border border-gray-300"
-              onClick={handleOpenFilter}
-            >
+        <div className="flex flex-col md:flex-row justify-between">
+          <input type="text" placeholder="Search Loan Number" className="border border-gray-300 rounded-md px-4 py-2 mb-2 md:mb-0" />
+          <div className="flex flex-col md:flex-row space-x-0 md:space-x-2">
+            <input type="text" placeholder="Search Loan Type / Region" className="border border-gray-300 rounded-md px-4 py-2 mb-2 md:mb-0" />
+            <button className="text-black px-4 py-2 rounded-md border border-gray-300" onClick={handleOpenFilter}>
               <FontAwesomeIcon icon={faFilter} className="px-2" /> More Filters
             </button>
           </div>
@@ -83,7 +81,7 @@ const Portfolio = () => {
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
-            <tr className=" text-left">
+            <tr className="text-left">
               <th className="border-b border-gray-300 px-4 py-2 w-12 text-gray-400"></th>
               <th className="border-b border-gray-300 px-4 py-2 text-gray-400">Loan No</th>
               <th className="border-b border-gray-300 px-4 py-2 text-gray-400">Loan Type</th>
@@ -92,7 +90,9 @@ const Portfolio = () => {
               <th className="border-b border-gray-300 px-4 py-2 text-gray-400">Co Borrower 1 Name</th>
               <th className="border-b border-gray-300 px-4 py-2 text-gray-400">Co Borrower 1 Address</th>
               <th className="border-b border-gray-300 px-4 py-2 text-gray-400">Current DPO</th>
-              <th className="border-b border-gray-300 px-4 py-2 text-gray-400">Sanction Amount <FontAwesomeIcon onClick={() => setFilterType('sorted')} icon={faSort} className='px-2 text-black' /> </th>
+              <th className="border-b border-gray-300 px-4 py-2 text-gray-400">
+                Sanction Amount <FontAwesomeIcon onClick={() => setFilterType('sorted')} icon={faSort} className="px-2 text-black" />
+              </th>
               <th className="border-b border-gray-300 px-4 py-2 text-gray-400">Region</th>
             </tr>
           </thead>
@@ -100,11 +100,7 @@ const Portfolio = () => {
             {(loans ?? []).map((loan) => (
               <tr key={loan.loanNo} className="hover:bg-gray-50 text-gray-700">
                 <td className="border-b border-gray-300 px-4 py-2 text-center">
-                  <input
-                    type="checkbox"
-                    checked={selectedLoans.includes(loan.loanNo)}
-                    onChange={() => handleCheckboxChange(loan.loanNo)}
-                  />
+                  <input type="checkbox" checked={selectedLoans.includes(loan.loanNo)} onChange={() => handleCheckboxChange(loan.loanNo)} />
                 </td>
                 <td className="border-b border-gray-300 px-4 py-2 text-black">{loan.loanNo}</td>
                 <td className="border-b border-gray-300 px-4 py-2 text-black">{loan.loanType}</td>
