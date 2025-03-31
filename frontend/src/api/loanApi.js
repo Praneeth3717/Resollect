@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-export const API_URL = 'http://localhost:5000';
+export const API_URL = 'https://resollect-backend-tipr.onrender.com';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://resollect-backend-tipr.onrender.com',
 });
 
 
