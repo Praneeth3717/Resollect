@@ -29,8 +29,8 @@ const Dashboard = () => {
     },
     {
       name: 'Loan Search',
-      property: 'Searches loans by loan number or region.',
-      status: 'Planned',
+      property: 'Searches loans by loan number and Loan Type.',
+      status: 'Working',
     },
     {
       name: 'CRUD Operations',
@@ -52,10 +52,7 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
-      <p className="mb-4">
-        This dashboard provides an overview of the project's functionality and current status.
-      </p>
-
+      <p className="mb-4">This dashboard provides an overview of the project's functionality and current status.</p>
       <h2 className="text-xl font-semibold mb-2">Functionality Status:</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300">
@@ -75,8 +72,7 @@ const Dashboard = () => {
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-semibold ${
                       func.status === 'Working' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'
-                    }`}
-                  >
+                    }`}>
                     {func.status}
                   </span>
                 </td>
@@ -84,6 +80,12 @@ const Dashboard = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="mt-6 p-4 bg-gray-100 rounded-md">
+        <p className="text-sm text-gray-700">
+          <strong>Note:</strong> Due to the project utilizing a free-tier MongoDB Atlas instance and a free deployment on render.com, data retrieval may exhibit slower performance. 
+          Expect potential delays when loading data-intensive sections of the application.
+        </p>
       </div>
     </div>
   );

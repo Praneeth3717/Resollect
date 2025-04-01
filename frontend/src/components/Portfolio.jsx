@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
+import { faFilter, faSort,faSearch } from '@fortawesome/free-solid-svg-icons';
 import Filter from './Filter';
 import { useQuery } from '@tanstack/react-query';
-import {GetLoans,GetPreSarfaesiLoans,GetNpaLoans,GetSortedLoans} from '../api/loanApi';
+import {GetLoans,GetPreSarfaesiLoans,GetNpaLoans,GetSortedLoans, GetLoan,GetLoansByType} from '../api/loanApi';
 
 const Portfolio = () => {
   const [selectedLoans, setSelectedLoans] = useState([]);
   const [FilterOpen, setFilterOpen] = useState(false);
   const [filterType, setFilterType] = useState('all');
+  const [loanId,setLoanId]=useState("")
+  const [loanType,setloanType]=useState("")
+
 
   const handleCheckboxChange = (loanNo) => {
     if (selectedLoans.includes(loanNo)) {
@@ -36,10 +39,15 @@ const Portfolio = () => {
           return await GetNpaLoans();
         case 'sorted':
           return await GetSortedLoans();
+        case 'loanId':
+          return await GetLoan(loanId);
+        case 'loanType':
+          return await GetLoansByType(loanType);
         default:
           return await GetLoans();
       }
     },
+    staleTime:5*60*1000
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -66,10 +74,18 @@ const Portfolio = () => {
           <button className="border-gray-300 border text-gray-700 px-2 py-0.5 rounded-md mb-2">Auctions</button>
         </div>
         <div className="flex flex-col md:flex-row justify-between">
-          <input type="text" placeholder="Search Loan Number" className="border border-gray-300 rounded-md px-4 py-2 mb-2 md:mb-0" />
-          <div className="flex flex-col md:flex-row space-x-0 md:space-x-2">
-            <input type="text" placeholder="Search Loan Type / Region" className="border border-gray-300 rounded-md px-4 py-2 mb-2 md:mb-0" />
-            <button className="text-black px-4 py-2 rounded-md border border-gray-300" onClick={handleOpenFilter}>
+        <div className="flex items-center">
+            <input onChange={(e)=>setLoanId(e.target.value)} type="text" placeholder="Search Loan Number" className="border border-gray-300 rounded-l-md px-4 py-2 mb-2 md:mb-0" />
+            <button onClick={() => setFilterType('loanId')} className="text-black px-2 py-2 rounded-r-md border border-gray-300 mb-2 md:mb-0">
+              <FontAwesomeIcon icon={faSearch} />
+            </button>
+          </div>
+          <div className="flex items-center">
+            <input onChange={(e)=>setloanType(e.target.value)} type="text" placeholder="Search Loan Type" className="border border-gray-300 rounded-l-md px-4 py-2 mb-2 md:mb-0" />
+            <button onClick={()=>setFilterType('loanType')} className="text-black px-2 py-2 rounded-r-md border border-gray-300 mb-2 md:mb-0">
+              <FontAwesomeIcon icon={faSearch} />
+            </button>
+            <button className="text-black px-4 py-2 ml-2 rounded-md border border-gray-300" onClick={handleOpenFilter}>
               <FontAwesomeIcon icon={faFilter} className="px-2" /> More Filters
             </button>
           </div>

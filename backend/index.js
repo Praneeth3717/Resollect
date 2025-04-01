@@ -1,7 +1,6 @@
 const express=require('express')
 const mongoose=require('mongoose')
 const cors=require('cors')
-const userRouter = require('./routes/userRoute')
 const loanRouter = require('./routes/loanRoute')
 require('dotenv').config()
 
@@ -19,5 +18,4 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
     console.log("Error in connecting to DB",error)
 })
 
-app.use('/user',userRouter)
 app.use('/loan',loanRouter)

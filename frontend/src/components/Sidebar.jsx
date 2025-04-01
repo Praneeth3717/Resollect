@@ -8,8 +8,7 @@ const Sidebar = ({ isSidebarOpen }) => {
     <div
       className={`fixed w-60 h-screen bg-white shadow-md pt-16 left-0 top-0 z-10 transition-transform duration-300 ease-in-out ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-      }`}
-    >
+      }`}>
       <ul className="mt-2 space-y-2">
         <li className="flex items-center gap-3 px-6 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
           <Link to="/" className="flex items-center gap-3 w-full">

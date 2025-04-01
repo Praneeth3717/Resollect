@@ -5,13 +5,18 @@ const ReadLoans=async(req,res)=>{
         const loans=await loanModel.find({})
         res.json({success:true,loans:loans})
     } catch (error) {
-        res.status(500).json({success:false,message:"Failed to fetch Loans",error: error.message });
+        return res.status(500).json({success:false,message:"Failed to fetch Loans",error: error.message });
     }
 }
 
 const ReadLoan=async(req,res)=>{
     try {
-        const loan=await loanModel.findOne({loanNo:req.params.loanNo})
+        const loanId=req.params.loanId;
+        if(!loanId){
+            return res.status(400).json({ message: "Loan Id is required" });
+        }
+        const regex=new RegExp(loanId,"i")
+        const loan=await loanModel.findOne({loanNo:regex})
         res.json({success:true,loan:loan})
     } catch (error) {
         res.status(500).json({success:false,message:"Failed to fetch Loan",error: error.message });
@@ -20,22 +25,18 @@ const ReadLoan=async(req,res)=>{
 
 const GetLoansbyType=async(req,res)=>{
     try {
-        const loans=await loanModel.find({loanType:req.params.loanType})
+        const loanType = req.params.loanType.trim();
+        if (!loanType) {
+            return res.status(400).json({ message: "Loan type is required" });
+        }
+        const regex = new RegExp(loanType, "i")
+        const loans=await loanModel.find({loanType:regex})
         res.json({success:true,loans:loans})
     } catch (error) {
         res.status(500).json({success:false,message:"Failed to fetch Loans by Type",error: error.message });
     }
 }
 
-const GetLoansbyRegion=async(req,res)=>{
-    try{
-        const loans=await loanModel.find({loanType:req.params.region})
-        res.json({success:true,loans:loans})
-    }
-    catch(error){
-        res.status(500).json({success:false,message:"Failed to fetch Loans by Region",error: error.message });
-    }
-}
 
 const SortedLoans=async(req,res)=>{
     try {
@@ -64,4 +65,4 @@ const NPA=async(req,res)=>{
     }
 }
 
-module.exports={ReadLoans,ReadLoan,GetLoansbyType,GetLoansbyRegion,SortedLoans,PreSarfaesi,NPA}
+module.exports={ReadLoans,ReadLoan,GetLoansbyType,SortedLoans,PreSarfaesi,NPA}

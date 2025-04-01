@@ -3,7 +3,7 @@ import axios from 'axios';
 export const API_URL = 'https://resollect-backend-tipr.onrender.com';
 
 const api = axios.create({
-    baseURL: 'https://resollect-backend-tipr.onrender.com',
+    baseURL: `${API_URL}`,
 });
 
 
@@ -20,7 +20,7 @@ export const GetLoans = async () => {
 export const GetLoan = async (loanNo) => {
     try {
         const res = await api.get(`/loan/readloan/${loanNo}`);
-        return res.data.loan; 
+        return [res.data.loan]; 
     } catch (error) {
         console.error('Error fetching loan:', error);
         throw error;
@@ -33,16 +33,6 @@ export const GetLoansByType = async (loanType) => {
         return res.data.loans; 
     } catch (error) {
         console.error('Error fetching loans by type:', error);
-        throw error;
-    }
-};
-
-export const GetLoansByRegion = async (region) => {
-    try {
-        const res = await api.get(`/loan/getloansbyregion/${region}`);
-        return res.data.loans; 
-    } catch (error) {
-        console.error('Error fetching loans by region:', error);
         throw error;
     }
 };
